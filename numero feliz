@@ -1,0 +1,131 @@
+import java.util.Arrays;
+
+
+public class NumerosFelizes {
+	public static void main(String[] args) {
+		System.out.println(feliz(970));
+//		teste1();
+	}
+	public static void teste1() {
+		Boolean[] feliz = new Boolean[2000];
+		feliz[0] = false;
+		int[] contador = new int[2000];
+		int tamanho = 1001;
+		for (int i = 0; i < tamanho; i++) {
+			System.out.println("\nFazendo: " + i);
+			int numero = i;
+			while (true) {
+				if (feliz[numero] != null) {
+					if (feliz[numero]) {
+						System.out.println("Feliz: " + numero);
+						for (int j = 0; j < contador.length; j++) {
+							if (contador[j] >= 1) {
+								feliz[j] = true;
+							}
+						}
+					} else {
+						System.out.println("InFeliz: " + numero);
+						for (int j = 0; j < contador.length; j++) {
+							if (contador[j] >= 1) {
+								feliz[j] = false;
+							}
+						}
+					}
+					System.out.print("Felizes: ");
+					for (int ii = 0; ii < contador.length; ii++) {
+						if (feliz[ii] != null && feliz[ii]) {
+							System.out.print(ii + ",");
+						}
+					}
+					System.out.println("");
+					System.out.print("InFelizes: ");
+					for (int ii = 0; ii < contador.length; ii++) {
+						if (feliz[ii] != null && !feliz[ii]) {
+							System.out.print(ii + ",");
+						}
+					}
+					System.out.println("");
+					Arrays.fill(contador, 0);
+					break;
+				}
+				System.out.println("Testando: " + numero);
+				int soma = 0;
+				for (char letra : (numero + "").toCharArray()) {
+					soma += Integer.parseInt("" + letra) * Integer.parseInt("" + letra);
+				}
+				contador[numero]++;
+				if (soma == 1 || (feliz[numero] != null && feliz[numero] == true)) {
+					if (i == 998) {
+						System.out.println("AQUI");
+					}
+					feliz[numero] = true;
+					for (int j = 0; j < contador.length; j++) {
+						if (contador[j] >= 1) {
+							feliz[j] = true;
+						}
+					}
+				} else {
+					if (contador[soma] > 1 || (feliz[soma] != null && feliz[soma] == false)) {
+						feliz[numero] = false;
+						for (int j = 0; j < contador.length; j++) {
+							if (contador[j] >= 1) {
+								feliz[j] = false;
+							}
+						}
+					}
+				}
+				numero = soma;
+			}
+		}
+		System.out.print("\nFelizes: ");
+		for (int i = 0; i < contador.length; i++) {
+			if (feliz[i] != null && feliz[i]) {
+				System.out.print(i + ",");
+			}
+		}
+		System.out.print("\nInFelizes: ");
+		for (int i = 0; i < contador.length; i++) {
+			if (feliz[i] != null && !feliz[i]) {
+				System.out.print(i + ",");
+			}
+		}
+	}
+	public static boolean feliz(int parNum) {
+		Boolean[] feliz = new Boolean[2000];
+		feliz[0] = false;
+		int[] contador = new int[2000];
+		for (int i = parNum; i < parNum + 1; i++) {
+			int numero = i;
+			while (true) {
+				if (feliz[numero] != null) {
+					Arrays.fill(contador, 0);
+					break;
+				}
+				int soma = 0;
+				for (char letra : (numero + "").toCharArray()) {
+					soma += Integer.parseInt("" + letra) * Integer.parseInt("" + letra);
+				}
+				contador[numero]++;
+				if (soma == 1) {
+					feliz[numero] = true;
+					for (int j = 0; j < contador.length; j++) {
+						if (contador[j] >= 1) {
+							feliz[j] = true;
+						}
+					}
+				} else {
+					if (contador[soma] > 1 || (feliz[soma] != null && feliz[soma] == false)) {
+						feliz[numero] = false;
+						for (int j = 0; j < contador.length; j++) {
+							if (contador[j] >= 1) {
+								feliz[j] = false;
+							}
+						}
+					}
+				}
+				numero = soma;
+			}
+		}
+		return feliz[parNum];
+	}
+}
